@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login - LumStore</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kiểm tra Đăng nhập LumStore</h1>
+    
+    <div class="test-section">
+        <h2>1. Kiểm tra cấu trúc dữ liệu</h2>
+        <button onclick="checkDatabase()">Kiểm tra Database</button>
+        <div id="dbResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Kiểm tra tài khoản mẫu</h2>
+        <button onclick="checkAccounts()">Kiểm tra tài khoản</button>
+        <div id="accountResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test đăng nhập</h2>
+        <div>
+            <input type="text" id="testUsername" placeholder="Tên đăng nhập" value="admin">
+            <input type="password" id="testPassword" placeholder="Mật khẩu" value="123456">
+            <button onclick="testLogin()">Test Login</button>
+        </div>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Kiểm tra Session</h2>
+        <button onclick="checkSession()">Kiểm tra Session</button>
+        <button onclick="clearSession()">Xóa Session</button>
+        <div id="sessionResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Kiểm tra lỗi trong code</h2>
+        <button onclick="checkCodeIssues()">Phân tích lỗi</button>
+        <div id="codeIssues"></div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "fashionstore_db";
+        const SESSION_KEY = "fashionstore_session";
+
+        const defaultDb = {
+            TaiKhoan: [
+                { MaTK: "TK001", TenDangNhap: "admin", MatKhau: "123456", VaiTro: "Quản trị viên" },
+                { MaTK: "TK002", TenDangNhap: "nhanvien", MatKhau: "123456", VaiTro: "Nhân viên bán hàng" },
+                { MaTK: "TK003", TenDangNhap: "kh001", MatKhau: "123456", VaiTro: "Khách hàng", MaKH: "KH001" },
+                { MaTK: "TK004", TenDangNhap: "kh002", MatKhau: "123456", VaiTro: "Khách hàng", MaKH: "KH002" }
+            ]
+        };
+
+        function checkDatabase() {
+            const result = document.getElementById('dbResult');
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const db = JSON.parse(saved);
+                    result.innerHTML = `<div class="test-result success">✓ Database tồn tại trong localStorage</div>
+                        <pre>Tài khoản: ${db.TaiKhoan ? db.TaiKhoan.length : 0}</pre>`;
+                } else {
+                    result.innerHTML = `<div class="test-result info">ℹ Chưa có database, sẽ dùng default</div>`;
+                }
+            } catch (e) {
+                result.innerHTML = `<div class="test-result error">✗ Lỗi đọc database: ${e.message}</div>`;
+            }
+        }
+
+        function checkAccounts() {
+            const result = document.getElementById('accountResult');
+            let html = '<div class="test-result info">Tài khoản mẫu có sẵn:</div>';
+            
+            defaultDb.TaiKhoan.forEach(acc => {
+                html += `<div class="test-result success">
+                    <strong>${acc.TenDangNhap}</strong> / ${acc.MatKhau} (${acc.VaiTro})<br>
+                    MaTK: ${acc.MaTK}${acc.MaKH ? ', MaKH: ' + acc.MaKH : ''}
+                </div>`;
+            });
+            
+            result.innerHTML = html;
+        }
+
+        function testLogin() {
+            const result = document.getElementById('loginResult');
+            const username = document.getElementById('testUsername').value.trim();
+            const password = document.getElementById('testPassword').value.trim();
+            
+            if (!username || !password) {
+                result.innerHTML = `<div class="test-result error">✗ Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu</div>`;
+                return;
+            }
+
+            // Load database
+            let db;
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                db = saved ? JSON.parse(saved) : { TaiKhoan: defaultDb.TaiKhoan };
+            } catch (e) {
+                db = { TaiKhoan: defaultDb.TaiKhoan };
+            }
+
+            // Find account
+            const account = db.TaiKhoan.find((a) => a.TenDangNhap === username && a.MatKhau === password);
+            
+            if (!account) {
+                result.innerHTML = `<div class="test-result error">✗ Tên đăng nhập hoặc mật khẩu không đúng.<br>
+                    <small>Đang tìm: ${username} / ${password}</small></div>`;
+            } else {
+                result.innerHTML = `<div class="test-result success">✓ Đăng nhập thành công!<br>
+                    <strong>Tài khoản:</strong> ${account.TenDangNhap}<br>
+                    <strong>Vai trò:</strong> ${account.VaiTro}<br>
+                    <strong>MaTK:</strong> ${account.MaTK}</div>`;
+                
+                // Save session
+                sessionStorage.setItem(SESSION_KEY, JSON.stringify(account));
+            }
+        }
+
+        function checkSession() {
+            const result = document.getElementById('sessionResult');
+            try {
+                const s = sessionStorage.getItem(SESSION_KEY);
+                if (s) {
+                    const session = JSON.parse(s);
+                    result.innerHTML = `<div class="test-result success">✓ Session tồn tại</div>
+                        <pre>${JSON.stringify(session, null, 2)}</pre>`;
+                } else {
+                    result.innerHTML = `<div class="test-result info">ℹ Chưa có session</div>`;
+                }
+            } catch (e) {
+                result.innerHTML = `<div class="test-result error">✗ Lỗi đọc session: ${e.message}</div>`;
+            }
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem(SESSION_KEY);
+            document.getElementById('sessionResult').innerHTML = `<div class="test-result success">✓ Đã xóa session</div>`;
+        }
+
+        function checkCodeIssues() {
+            const result = document.getElementById('codeIssues');
+            let issues = [];
+            
+            // Issue 1: Check if ensureDefaultAccounts is called
+            issues.push({
+                type: 'warning',
+                msg: 'Hàm ensureDefaultAccounts() được gọi ở dòng 71, nhưng cần kiểm tra xem nó có chạy đúng không'
+            });
+            
+            // Issue 2: Check session restoration
+            issues.push({
+                type: 'info',
+                msg: 'Dòng 860-866: Session được restore bằng cách tìm theo MaTK. Cần đảm bảo MaTK được lưu đúng trong session.'
+            });
+            
+            // Issue 3: Check login form handler
+            issues.push({
+                type: 'info',
+                msg: 'Dòng 633-655: Login form handler kiểm tra TenDangNhap và MatKhau. Nếu không tìm thấy account, sẽ báo lỗi.'
+            });
+            
+            // Issue 4: Potential issue with ensureDefaultAccounts
+            issues.push({
+                type: 'error',
+                msg: 'CẢNH BÁO: Trong ensureDefaultAccounts(), nếu db.TaiKhoan chưa tồn tại hoặc bị lỗi, việc tìm kiếm account có thể thất bại.'
+            });
+            
+            let html = '<div class="test-result info"><strong>Các vấn đề tiềm ẩn:</strong></div>';
+            issues.forEach(issue => {
+                const cssClass = issue.type === 'error' ? 'error' : issue.type === 'warning' ? 'warning' : 'info';
+                html += `<div class="test-result ${cssClass}">${issue.msg}</div>`;
+            });
+            
+            html += '<div class="test-result info"><strong>Đề xuất kiểm tra:</strong><ol>';
+            html += '<li>Mở Developer Tools (F12) và kiểm tra Console có lỗi JavaScript không</li>';
+            html += '<li>Kiểm tra tab Application > Local Storage có dữ liệu không</li>';
+            html += '<li>Kiểm tra tab Application > Session Storage có session không</li>';
+            html += '<li>Thử đăng nhập với admin/123456 và xem có lỗi gì không</li>';
+            html += '</ol></div>';
+            
+            result.innerHTML = html;
+        }
+
+        // Auto check on load
+        window.onload = function() {
+            checkDatabase();
+            checkAccounts();
+        };
+    </script>
+</body>
+</html>

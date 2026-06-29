@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hệ thống quản lý cửa hàng thời trang LummStore Admin" />
+    <title>LumStore | Cửa Hàng Thời Trang Cao Cấp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Cinematic VFX Layers -->
+    <canvas id="particleCanvas" class="vfx-canvas"></canvas>
+    <div class="vfx-volumetric" aria-hidden="true"></div>
+    <div class="vfx-volumetric vfx-volumetric-2" aria-hidden="true"></div>
+    <div class="vfx-lens-flare" aria-hidden="true"></div>
+    <div class="vfx-lens-flare vfx-lens-flare-2" aria-hidden="true"></div>
+    <div class="vfx-dof" aria-hidden="true"></div>
+    <div class="vfx-scanline" aria-hidden="true"></div>
+    <div class="vfx-vignette" aria-hidden="true"></div>
+
+    <!-- TRANG CHỦ -->
+    <div id="homePage" class="home-page">
+      <header class="home-nav glass-panel">
+        <div class="home-nav-brand">
+          <span class="brand-icon">✦</span>
+          <span>LumStore</span>
+        </div>
+        <nav class="home-nav-links">
+          <button class="nav-link-btn" data-page="dashboard">Trang chủ</button>
+          <button class="nav-link-btn" data-scroll="home-showcase">Sản phẩm nổi bật</button>
+          <button class="nav-link-btn" data-scroll="home-about">Về chúng tôi</button>
+          <button class="nav-link-btn" data-scroll="home-footer">Liên hệ</button>
+        </nav>
+        <button id="goLoginBtn" class="btn btn-primary btn-glow">
+          <span>Đăng nhập</span>
+          <div class="btn-shine"></div>
+        </button>
+      </header>
+
+      <section id="home-hero" class="home-hero">
+        <div class="home-hero-bg" aria-hidden="true"></div>
+        <div class="home-hero-content cinematic-enter">
+          <p class="home-eyebrow">Bộ sưu tập mùa hè 2026</p>
+          <h1>Thời trang<br /><span>đẳng cấp</span> mỗi ngày</h1>
+          <p class="home-hero-desc">
+            Khám phá xu hướng thời trang mới nhất — áo thun, quần jean, váy vintage và áo khoác streetwear.
+            Phong cách riêng, chất lượng cao cấp.
+          </p>
+          <div class="home-hero-actions">
+            <button id="heroLoginBtn" class="btn btn-primary btn-glow btn-lg">
+              <span>Bắt đầu mua sắm</span>
+              <div class="btn-shine"></div>
+            </button>
+            <a href="#home-showcase" class="btn btn-ghost btn-lg">Xem bộ sưu tập</a>
+          </div>
+          <div class="home-stats">
+            <div class="home-stat">
+              <strong id="homeStatProducts">8+</strong>
+              <span>Sản phẩm</span>
+            </div>
+            <div class="home-stat">
+              <strong>100%</strong>
+              <span>Chính hãng</span>
+            </div>
+            <div class="home-stat">
+              <strong>24/7</strong>
+              <span>Hỗ trợ</span>
+            </div>
+          </div>
+        </div>
+        <div class="home-hero-visual">
+          <div class="hero-card hero-card-main glass-panel">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80" alt="Thời trang nữ" />
+            <div class="hero-card-label">New Collection</div>
+          </div>
+          <div class="hero-card hero-card-sub glass-panel">
+            <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80" alt="Quần jean" />
+          </div>
+          <div class="hero-card hero-card-sub-2 glass-panel">
+            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=400&q=80" alt="Váy thời trang" />
+          </div>
+        </div>
+      </section>
+
+      <section id="home-showcase" class="home-showcase">
+        <div class="home-section-head scroll-reveal">
+          <p class="home-eyebrow">Bộ sưu tập nổi bật</p>
+          <h2>Sản phẩm được yêu thích</h2>
+          <p>Được tuyển chọn từ kho hàng LumStore — phong cách hiện đại, giá cả hợp lý.</p>
+        </div>
+        <div id="homeFeaturedGrid" class="home-featured-grid"></div>
+      </section>
+
+      <section id="home-about" class="home-about">
+        <div class="about-hero scroll-reveal">
+          <div class="about-hero-content">
+            <p class="home-eyebrow">Về LumStore</p>
+            <h2>Đối tác thời trang đáng tin cậy<br />của bạn</h2>
+            <p>Với hơn 10 năm kinh nghiệm trong ngành thời trang, LumStore đã khẳng định vị thế là thương hiệu hàng đầu, mang đến những sản phẩm chất lượng cao cấp và dịch vụ tận tâm.</p>
+          </div>
+          <div class="about-stats">
+            <div class="about-stat scroll-reveal scroll-reveal-delay-1">
+              <span class="stat-value">10+</span>
+              <span class="stat-label">Năm kinh nghiệm</span>
+            </div>
+            <div class="about-stat scroll-reveal scroll-reveal-delay-2">
+              <span class="stat-value">50K+</span>
+              <span class="stat-label">Khách hàng</span>
+            </div>
+            <div class="about-stat scroll-reveal scroll-reveal-delay-3">
+              <span class="stat-value">100+</span>
+              <span class="stat-label">Sản phẩm</span>
+            </div>
+            <div class="about-stat scroll-reveal scroll-reveal-delay-4">
+              <span class="stat-value">4.9</span>
+              <span class="stat-label">Đánh giá</span>
+            </div>
+          </div>
+        </div>
+        <div class="home-about-grid">
+          <article class="home-about-card glass-panel scroll-reveal scroll-reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=600&q=80" alt="Thời trang đa dạng" class="about-image" />
+            <div class="about-icon">👗</div>
+            <h3>Thời trang đa dạng</h3>
+            <p>Hơn 100+ mẫu mã áo thun, quần jean, váy, áo khoác và phụ kiện — đáp ứng mọi phong cách từ casual đến formal.</p>
+          </article>
+          <article class="home-about-card glass-panel scroll-reveal scroll-reveal-delay-2">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" alt="Chất lượng cao cấp" class="about-image" />
+            <div class="about-icon">✨</div>
+            <h3>Chất lượng cao cấp</h3>
+            <p>Vải cotton 100%, linen, voan nhập khẩu — thoải mái, bền đẹp theo thời gian, an toàn cho làn da.</p>
+          </article>
+          <article class="home-about-card glass-panel scroll-reveal scroll-reveal-delay-3">
+            <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80" alt="Giao hàng nhanh" class="about-image" />
+            <div class="about-icon">🚚</div>
+            <h3>Giao hàng nhanh</h3>
+            <p>Đặt hàng dễ dàng, giao hàng trong 2-3 ngày — theo dõi trạng thái đơn hàng trực tuyến mọi lúc mọi nơi.</p>
+          </article>
+        </div>
+        <div class="home-about-features">
+          <div class="feature-item scroll-reveal scroll-reveal-delay-1">
+            <span class="feature-number">01</span>
+            <h4>Thiết kế độc quyền</h4>
+            <p>Mẫu mã được thiết kế bởi đội ngũ chuyên gia hàng đầu</p>
+          </div>
+          <div class="feature-item scroll-reveal scroll-reveal-delay-2">
+            <span class="feature-number">02</span>
+            <h4>Giá cả cạnh tranh</h4>
+            <p>Cam kết giá tốt nhất thị trường với chất lượng vượt trội</p>
+          </div>
+          <div class="feature-item scroll-reveal scroll-reveal-delay-3">
+            <span class="feature-number">03</span>
+            <h4>Hỗ trợ 24/7</h4>
+            <p>Đội ngũ tư vấn luôn sẵn sàng giải đáp mọi thắc mắc</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-cta glass-panel">
+        <h2>Sẵn sàng khám phá?</h2>
+        <p>Đăng nhập để mua sắm hoặc quản lý cửa hàng của bạn.</p>
+        <button id="ctaLoginBtn" class="btn btn-primary btn-glow btn-lg">
+          <span>Đăng nhập ngay</span>
+          <div class="btn-shine"></div>
+        </button>
+      </section>
+
+      <footer id="home-footer" class="home-footer">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Về LumStore</h4>
+            <p>Hệ thống quản lý cửa hàng thời trang cao cấp, mang đến trải nghiệm mua sắm tuyệt vời cho khách hàng.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Liên hệ</h4>
+            <p>📍 Quận 1, TP.HCM</p>
+            <p>📞 0901234567</p>
+            <p>✉️ support@lumstore.vn</p>
+          </div>
+          <div class="footer-section">
+            <h4>Kết nối</h4>
+            <div class="social-links">
+              <a href="#" class="social-link">Facebook</a>
+              <a href="#" class="social-link">Instagram</a>
+              <a href="#" class="social-link">Twitter</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 LumStore — Hệ thống quản lý cửa hàng thời trang</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page hidden">
+      <div class="login-glow" aria-hidden="true"></div>
+      <div class="login-card glass-panel cinematic-enter">
+        <div class="brand">
+          <div class="brand-icon">✦</div>
+          <h1>LumStore</h1>
+          <p>Hệ thống quản lý cửa hàng thời trang</p>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input id="username" type="text" placeholder="Nhập tên đăng nhập" autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input id="password" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password" />
+          </div>
+          <p id="loginError" class="error-text"></p>
+          <button type="submit" class="btn btn-primary btn-full btn-glow">
+            <span>Đăng nhập</span>
+            <div class="btn-shine"></div>
+          </button>
+        </form>
+        <button type="button" id="backHomeBtn" class="btn btn-ghost btn-full">← Về trang chủ</button>
+        <p class="hint">Tài khoản mẫu: <strong>admin / 123456</strong> hoặc <strong>kh001 / 123456</strong></p>
+        <p class="switch-text">
+          Chưa có tài khoản? <button type="button" id="goToRegisterBtn" class="link-btn">Đăng ký ngay</button>
+        </p>
+      </div>
+    </div>
+
+    <!-- REGISTRATION PAGE -->
+    <div id="registerPage" class="register-page hidden">
+      <div class="register-glow" aria-hidden="true"></div>
+      <div class="register-card glass-panel cinematic-enter">
+        <div class="brand">
+          <div class="brand-icon">✦</div>
+          <h1>LumStore</h1>
+          <p>Tạo tài khoản mới</p>
+        </div>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="regUsername">Tên đăng nhập</label>
+            <input id="regUsername" type="text" placeholder="Nhập tên đăng nhập" autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Mật khẩu</label>
+            <input id="regPassword" type="password" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" autocomplete="new-password" />
+          </div>
+          <div class="form-group">
+            <label for="regConfirmPassword">Xác nhận mật khẩu</label>
+            <input id="regConfirmPassword" type="password" placeholder="Nhập lại mật khẩu" autocomplete="new-password" />
+          </div>
+          <div class="form-group">
+            <label for="regFullName">Họ và tên</label>
+            <input id="regFullName" type="text" placeholder="Nhập họ và tên" />
+          </div>
+          <div class="form-group">
+            <label for="regPhone">Số điện thoại</label>
+            <input id="regPhone" type="tel" placeholder="Nhập số điện thoại" />
+          </div>
+          <div class="form-group">
+            <label for="regAddress">Địa chỉ</label>
+            <input id="regAddress" type="text" placeholder="Nhập địa chỉ" />
+          </div>
+          <p id="registerError" class="error-text"></p>
+          <button type="submit" class="btn btn-primary btn-full btn-glow">
+            <span>Đăng ký</span>
+            <div class="btn-shine"></div>
+          </button>
+        </form>
+        <button type="button" id="backToLoginBtn" class="btn btn-ghost btn-full">← Quay lại đăng nhập</button>
+        <p class="hint">Đăng ký để trở thành khách hàng của LumStore</p>
+      </div>
+    </div>
+
+    <!-- APP LAYOUT -->
+    <div id="appLayout" class="app-layout hidden">
+      <header class="app-header glass-panel">
+        <div class="header-left">
+          <div class="logo-mark">✦</div>
+          <div class="logo-text">
+            <h2>LumStore</h2>
+            <p id="userRole">Quản trị hệ thống</p>
+          </div>
+        </div>
+        <nav class="app-nav">
+          <button class="nav-item active admin-only" data-page="dashboard">
+            <span class="nav-icon">◈</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item admin-only" data-page="products">
+            <span class="nav-icon">◈</span>
+            <span>Sản phẩm</span>
+          </button>
+          <button class="nav-item" data-page="catalog">
+            <span class="nav-icon">◈</span>
+            <span>Bộ sưu tập</span>
+          </button>
+          <button class="nav-item" data-page="create-order">
+            <span class="nav-icon">◈</span>
+            <span>Đặt hàng</span>
+          </button>
+          <button class="nav-item admin-only" data-page="orders">
+            <span class="nav-icon">◈</span>
+            <span>Đơn hàng</span>
+          </button>
+          <button class="nav-item admin-only" data-page="customers">
+            <span class="nav-icon">◈</span>
+            <span>Khách hàng</span>
+          </button>
+          <button class="nav-item customer-only hidden" data-page="my-orders">
+            <span class="nav-icon">◈</span>
+            <span>Đơn của tôi</span>
+          </button>
+        </nav>
+        <div class="header-right">
+          <div class="user-badge">
+            <span class="user-avatar">👤</span>
+            <span id="welcomeText">Xin chào, admin!</span>
+          </div>
+          <button id="backHomeBtn" class="btn btn-ghost btn-sm">← Trang chủ</button>
+          <button id="logoutBtn" class="btn btn-ghost btn-sm">Đăng xuất</button>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header glass-panel">
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p class="page-subtitle">Tổng quan hệ thống</p>
+          </div>
+          <div class="status-badge">
+            <span class="pulse-dot"></span>
+            <span>Hệ thống hoạt động</span>
+          </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active cinematic-enter">
+          <div class="stats-grid">
+            <article class="stat-card glass-panel" data-delay="0">
+              <div class="stat-glow"></div>
+              <div class="stat-icon">👗</div>
+              <h3>Tổng sản phẩm</h3>
+              <p id="totalProducts" class="stat-number">0</p>
+            </article>
+            <article class="stat-card glass-panel" data-delay="1">
+              <div class="stat-glow"></div>
+              <div class="stat-icon">📦</div>
+              <h3>Tổng đơn hàng</h3>
+              <p id="totalOrders" class="stat-number">0</p>
+            </article>
+            <article class="stat-card glass-panel" data-delay="2">
+              <div class="stat-glow"></div>
+              <div class="stat-icon">👥</div>
+              <h3>Tổng khách hàng</h3>
+              <p id="totalCustomers" class="stat-number">0</p>
+            </article>
+            <article class="stat-card glass-panel revenue" data-delay="3">
+              <div class="stat-glow"></div>
+              <div class="stat-icon">💎</div>
+              <h3>Doanh thu</h3>
+              <p id="totalRevenue" class="stat-number">0 đ</p>
+            </article>
+          </div>
+          <div class="dashboard-extra">
+            <div class="glass-panel recent-panel">
+              <h3>Đơn hàng gần đây</h3>
+              <div id="recentOrders"></div>
+            </div>
+            <div class="glass-panel recent-panel">
+              <h3>Sản phẩm bán chạy</h3>
+              <div id="topProducts"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUẢN LÝ SẢN PHẨM -->
+        <section id="products" class="page">
+          <div class="section-head">
+            <h2>Quản lý sản phẩm</h2>
+            <div class="actions">
+              <div class="search-box">
+                <input id="productSearch" type="text" placeholder="Tìm kiếm tên/mã sản phẩm..." />
+                <span class="search-icon">⌕</span>
+              </div>
+              <button id="addProductBtn" class="btn btn-primary btn-glow">
+                <span>+ Thêm sản phẩm</span>
+                <div class="btn-shine"></div>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrap glass-panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã sản phẩm</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá bán</th>
+                  <th>Số lượng</th>
+                  <th>Mô tả</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- XEM SẢN PHẨM -->
+        <section id="catalog" class="page">
+          <div class="catalog-hero glass-panel">
+            <div class="catalog-hero-content">
+              <h2>Bộ sưu tập thời trang</h2>
+              <p>Khám phá phong cách của bạn với những sản phẩm thời trang cao cấp</p>
+            </div>
+            <div class="catalog-stats">
+              <div class="catalog-stat">
+                <strong>8+</strong>
+                <span>Sản phẩm</span>
+              </div>
+              <div class="catalog-stat">
+                <strong>100%</strong>
+                <span>Chính hãng</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Customer Guide Section -->
+          <div class="customer-guide glass-panel" id="customerGuide" style="display: none;">
+            <h3>📋 Hướng dẫn sử dụng cho khách hàng</h3>
+            <div class="guide-content">
+              <div class="guide-item">
+                <span class="guide-icon">🛍️</span>
+                <div class="guide-text">
+                  <h4>Xem sản phẩm</h4>
+                  <p>Duyệt bộ sưu tập thời trang, xem chi tiết giá và mô tả sản phẩm</p>
+                </div>
+              </div>
+              <div class="guide-item">
+                <span class="guide-icon">📝</span>
+                <div class="guide-text">
+                  <h4>Đặt hàng</h4>
+                  <p>Chọn sản phẩm, nhập số lượng và thông tin giao hàng để đặt mua</p>
+                </div>
+              </div>
+              <div class="guide-item">
+                <span class="guide-icon">📦</span>
+                <div class="guide-text">
+                  <h4>Theo dõi đơn hàng</h4>
+                  <p>Xem lịch sử đơn hàng và trạng thái giao hàng của bạn</p>
+                </div>
+              </div>
+              <div class="guide-item">
+                <span class="guide-icon">👤</span>
+                <div class="guide-text">
+                  <h4>Quản lý tài khoản</h4>
+                  <p>Cập nhật thông tin cá nhân và theo dõi lịch sử mua hàng</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="catalogGrid" class="catalog-grid"></div>
+        </section>
+
+        <!-- ĐẶT HÀNG -->
+        <section id="create-order" class="page">
+          <div class="section-head">
+            <h2>Đặt hàng</h2>
+            <p class="section-sub">Tạo đơn hàng mới cho khách hàng</p>
+          </div>
+          <form id="orderForm" class="order-form glass-panel">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="orderProduct">Chọn sản phẩm</label>
+                <select id="orderProduct"></select>
+              </div>
+              <div class="form-group">
+                <label for="orderQuantity">Số lượng</label>
+                <input id="orderQuantity" type="number" min="1" value="1" />
+              </div>
+              <div class="form-group">
+                <label for="customerName">Họ tên khách hàng</label>
+                <input id="customerName" type="text" placeholder="Ví dụ: Nguyễn Văn A" />
+              </div>
+              <div class="form-group">
+                <label for="customerPhone">Số điện thoại</label>
+                <input id="customerPhone" type="tel" placeholder="Ví dụ: 0901234567" />
+              </div>
+            </div>
+            <div class="total-box">
+              <span>Tổng tiền:</span>
+              <strong id="orderTotal">0 đ</strong>
+            </div>
+            <p id="orderError" class="error-text"></p>
+            <button type="submit" class="btn btn-primary btn-glow">
+              <span>Xác nhận đặt hàng</span>
+              <div class="btn-shine"></div>
+            </button>
+          </form>
+        </section>
+
+        <!-- QUẢN LÝ ĐƠN HÀNG -->
+        <section id="orders" class="page">
+          <div class="section-head">
+            <h2>Quản lý đơn hàng</h2>
+          </div>
+          <div class="table-wrap glass-panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã đơn hàng</th>
+                  <th>Khách hàng</th>
+                  <th>Ngày đặt</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="my-orders" class="page">
+          <div class="section-head">
+            <h2>Đơn hàng của tôi</h2>
+            <p class="section-sub">Theo dõi các đơn hàng bạn đã đặt</p>
+          </div>
+          <div class="table-wrap glass-panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã đơn hàng</th>
+                  <th>Ngày đặt</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Chi tiết</th>
+                </tr>
+              </thead>
+              <tbody id="myOrdersTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- KHÁCH HÀNG -->
+        <section id="customers" class="page">
+          <div class="section-head">
+            <h2>Khách hàng</h2>
+          </div>
+          <div class="table-wrap glass-panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã khách hàng</th>
+                  <th>Họ tên</th>
+                  <th>Số điện thoại</th>
+                  <th>Địa chỉ</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODAL SẢN PHẨM -->
+    <div id="productModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card glass-panel cinematic-enter">
+        <h3 id="productModalTitle">Thêm sản phẩm</h3>
+        <form id="productForm">
+          <input id="productId" type="hidden" />
+          <div class="form-group">
+            <label for="productCode">Mã sản phẩm</label>
+            <input id="productCode" type="text" placeholder="Ví dụ: SP010" />
+          </div>
+          <div class="form-group">
+            <label for="productName">Tên sản phẩm</label>
+            <input id="productName" type="text" placeholder="Ví dụ: Áo thun basic" />
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Giá bán</label>
+            <input id="productPrice" type="number" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="productStock">Số lượng</label>
+            <input id="productStock" type="number" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="productDesc">Mô tả</label>
+            <textarea id="productDesc" rows="3" placeholder="Mô tả ngắn sản phẩm"></textarea>
+          </div>
+          <p id="productError" class="error-text"></p>
+          <div class="modal-actions">
+            <button type="button" id="cancelProductBtn" class="btn btn-ghost">Hủy</button>
+            <button type="submit" class="btn btn-primary btn-glow">
+              <span>Lưu</span>
+              <div class="btn-shine"></div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL CHI TIẾT -->
+    <div id="detailModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card glass-panel detail-modal cinematic-enter">
+        <button id="closeDetailBtn" class="modal-close">✕</button>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast hidden">
+      <span id="toastIcon">✓</span>
+      <span id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
